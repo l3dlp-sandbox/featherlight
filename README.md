@@ -14,7 +14,7 @@ Featherlight - ultra slim jQuery lightbox [![Build Status](https://travis-ci.org
 
 
 
-## [» Download Current Release 1.7.1](https://github.com/noelboss/featherlight/archive/1.7.1.zip)
+## [» Download Current Release 1.7.13](https://github.com/noelboss/featherlight/archive/1.7.13.zip)
 
 Here you'll find a [list of all the changes](https://github.com/noelboss/featherlight/blob/master/CHANGELOG.md) and you can also download [old releases](https://github.com/noelboss/featherlight/releases) or [the master including all the latest  bling](https://github.com/noelboss/featherlight/archive/master.zip).
 
@@ -23,14 +23,14 @@ Here you'll find a [list of all the changes](https://github.com/noelboss/feather
 
 All styling is done using CSS so you'll want to include the Featherlight CSS in your head.
 
-	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.css" type="text/css" rel="stylesheet" />
 
 Be aware that Featherlight uses very unspecific CSS selectors to help you overwrite every aspect. This means in turn, that if you're not following a modularized approach to write CSS (which you should! It's terrific!) and have many global and specific definitions (read ID's and such – which you shouldn't), these definitions can break the Featherlight styling.
 
-Featherlight requires jQuery version 1.7.0 or higher. It's recommended to include the javascript at the bottom of the page before the closing `</body>` tag.
+Featherlight requires jQuery version 1.7.0 or higher (regular version, not the slim one). It's recommended to include the javascript at the bottom of the page before the closing `</body>` tag.
 
 	<script src="//code.jquery.com/jquery-latest.js"></script>
-	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 
 
 # Usage
@@ -46,7 +46,7 @@ Featherlight is smart. 'data-featherlight' can also contain a link to an image, 
 	<a href="#" data-featherlight="myhtml.html .selector">Open ajax content in lightbox</a>
 	<a href="#" data-featherlight="<p>Fancy DOM Lightbox!</p>">Open some DOM in lightbox</a>
 
-it also works with links using href and the "image" and "ajax" keywords (this can also be manually set with the configuration options like `{image: 'photo.jpg}` or `{type: 'image'}`):
+it also works with links using href and the "image" and "ajax" keywords (this can also be manually set with the configuration options like `{image: 'photo.jpg'}` or `{type: 'image'}`):
 
 	<a href="myimage.png" data-featherlight="image">Open image in lightbox</a>
 	<a href="myhtml.html .selector" data-featherlight="ajax">Open ajax content in lightbox</a>
@@ -62,7 +62,7 @@ You can bind the Featherlight events on any element using the following code:
 
 It will then look for the `targetAttr` (by default "data-featherlight") on this element and use its value to find the content that will be opened as lightbox when you click on the element.
 
-***$content*** – jQuery Object or String: You can manually pass a jQuery object or a string (see [content filters](#content-filters)) to be opened in the ligthbox. Optional
+***$content*** – jQuery Object or String: You can manually pass a jQuery object or a string (see [content filters](#content-filters)) to be opened in the lightbox. Optional
 
 ***configuration*** – Object: Object to configure certain aspects of the plugin. See [Configuration](#configuration). Optional
 
@@ -71,7 +71,7 @@ In cases where you don't want an Element to act as Trigger you can call Featherl
 
 	$.featherlight($content, configuration);
 
-***$content*** – jQuery Object or String: You can manually pass a jQuery object or a string (see [content filters](#content-filters)) to be opened in the ligthbox. Optional
+***$content*** – jQuery Object or String: You can manually pass a jQuery object or a string (see [content filters](#content-filters)) to be opened in the lightbox. Optional
 
 ***configuration*** – Object: Object to configure certain aspects of the plugin. See [Configuration](#configuration). Optional
 
@@ -95,7 +95,7 @@ defaults: {
 	openTrigger:    'click',               /* Event that triggers the lightbox */
 	closeTrigger:   'click',               /* Event that triggers the closing of the lightbox */
 	filter:         null,                  /* Selector to filter events. Think $(...).on('click', filter, eventHandler) */
-	root:           'body',                /* Where to append featherlights */
+	root:           'body',                /* A selector specifying where to append featherlights */
 	openSpeed:      250,                   /* Duration of opening animation */
 	closeSpeed:     250,                   /* Duration of closing animation */
 	closeOnClick:   'background',          /* Close lightbox on click ('background', 'anywhere', or false) */
@@ -286,7 +286,7 @@ There are many ways to specify content to featherlight. Featherlight uses a set 
 	<a id="#example" href="#">See in a lightbox</a>
 	<script>$('#example').featherlight('photo.gif');</script>
 
-In case the heuristic wouldn't work, you can specify which contentFiter to use:
+In case the heuristic wouldn't work, you can specify which contentFilter to use:
 
 	<a href="photo_without_extension" data-featherlight="image">See in a lightbox</a>
 
@@ -327,7 +327,7 @@ The content filter 'text' needs to be specified explicitly, it has no heuristic 
 	});
 
 ## Open images with Featherlight
-Us a link and point the data-featherlight attribute to the desired attribute which contains the link...
+Use a link and point the data-featherlight attribute to the desired attribute which contains the link...
 
 	<a href="myimage.jpg" data-featherlight="image">Open Image</a>
 
@@ -345,14 +345,51 @@ or you can provide the link directly as the featherlight-attribute:
 	<a href="#" data-featherlight="url.html .jQuery-Selector">Open Ajax Content</a>
 
 ## Open lightbox with iframe
-Featherlight generates an iframe with the 'iframe' keyword and a given url
+Featherlight generates an iframe with the 'iframe' keyword and a given URL.  
+The default size of the iframe is very small (300 x 150).  
 
 	<a href="http://www.example.com" data-featherlight="iframe">Open example.com in an iframe</a>
 
-Options `iframeWidth`, `iframeMinWidth`, etc. or their corresponding data attributes `data-featherlight-iframe-width`, `data-featherlight-iframe-min-width` are used as CSS when present.
+Options:  
+You can use the following iframe attributes:  
+`
+allow, allowfullscreen, frameborder, height, longdesc, marginheight, marginwidth, mozallowfullscreen, name, referrerpolicy, sandbox, scrolling, src, srcdoc, style, webkitallowfullscreen, width  
+`  
+
+For example, to set the height and width, you would use
+
+	data-featherlight-iframe-height="640" data-featherlight-iframe-width="480"
+
+or to set some css style:
+
+	data-featherlight-iframe-style="border:none"
+
+You can also set the iframe attributes `iframeWidth`, `iframeMinWidth` etc. using JavaScript:
 
 	$.featherlight({iframe: 'editor.html', iframeMaxWidth: '80%', iframeWidth: 500,
 		iframeHeight: 300});
+
+## Open YouTube video with Featherlight
+Featherlight generates an iframe that contains the embedded video.
+
+Display a clickable thumbnail image that opens a video with a fixed size of 640 x 480 and automatically start playback:  
+`
+<a href="http://www.youtube.com/embed/f0BzD1zCye0?rel=0&amp;autoplay=1" data-featherlight="iframe" data-featherlight-iframe-width="640" data-featherlight-iframe-height="480" data-featherlight-iframe-frameborder="0" data-featherlight-iframe-allow="autoplay; encrypted-media" data-featherlight-iframe-allowfullscreen="true">
+<img src="http://img.youtube.com/vi/f0BzD1zCye0/0.jpg" alt="" />
+</a>
+`  
+
+A text link that opens a video in a lightbox that is stretched to 85% height and width of the viewport:  
+`
+<a href="http://www.youtube.com/embed/f0BzD1zCye0?rel=0&amp;autoplay=1" data-featherlight="iframe" data-featherlight-iframe-frameborder="0" data-featherlight-iframe-allow="autoplay; encrypted-media" data-featherlight-iframe-allowfullscreen="true" data-featherlight-iframe-style="display:block;border:none;height:85vh;width:85vw;">My video</a>
+`  
+
+A link that opens a video in a lightbox that fills 100% of the window:  
+Note: the "close" icon is not visible so this example is not user-friendly.  
+`
+<a href="http://www.youtube.com/embed/f0BzD1zCye0?rel=0&amp;autoplay=1" data-featherlight="iframe" data-featherlight-iframe-frameborder="0" data-featherlight-iframe-allow="autoplay; encrypted-media" data-featherlight-iframe-allowfullscreen="true" 
+data-featherlight-iframe-style="position:fixed;background:#000;border:none;top:0;right:0;bottom:0;left:0;width:100%;height:100%;">My video</a>
+`
 
 # IE8 background transparency
 If you want the background in IE8 to be translucent, use data:image before the rgba background:
@@ -369,15 +406,15 @@ You will need to use an extension (featherlight.gallery.js).  Since Featherlight
 
 Simply include the extension CSS and JavaScript Files after the regular featherlight files like this:
 
-	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.css" type="text/css" rel="stylesheet" />
-	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.gallery.min.css" type="text/css" rel="stylesheet" />
+	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.gallery.min.css" type="text/css" rel="stylesheet" />
 
 Add the JavaScript at the bottom of the body:
 
 ```html
 	<script src="//code.jquery.com/jquery-latest.js"></script>
-	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.gallery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.gallery.min.js" type="text/javascript" charset="utf-8"></script>
 ```
 
 Check out the example here: [Gallery with Featherlight](gallery.html)
@@ -439,11 +476,11 @@ It sets the classes `'featherlight-first-slide'` and `'featherlight-last-slide'`
 
 Simply include the extension CSS and JavaScript Files after the regular featherlight files like this:
 
-	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.css" type="text/css" rel="stylesheet" />
-	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.gallery.min.css" type="text/css" rel="stylesheet" />
+	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+	<link href="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.gallery.min.css" type="text/css" rel="stylesheet" />
 	<script src="//code.jquery.com/jquery-latest.js"></script>
-	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.gallery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.gallery.min.js" type="text/javascript" charset="utf-8"></script>
 
 ## Gallery on Mobile Devices
 To support mobile/tablet and all touch devices, you will need to include one of the [supported swipe libraries](https://github.com/noelboss/featherlight/wiki/Gallery:-swipe-on-touch-devices). For example, to use `swipe_detect` library, include it in the header:

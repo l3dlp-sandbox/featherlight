@@ -47,6 +47,21 @@ var stubAjaxLoad = function(content) {
 			]);
 		});
 
+		it ('works on items with data-featherlight by default', function(done) {
+			$('body').append('<div id="auto-bound-2" data-featherlight="fixtures/photo.jpeg">Dynamic</div>')
+			expect($('img')).to.not.be.visible;
+			$('#auto-bound-2').click();
+			patiently(done, [
+				function() {
+					expect($('.featherlight img')).to.be.visible;
+					expect($('.featherlight img')).to.have.attr('src').equal('fixtures/photo.jpeg');
+					$('.featherlight').click();
+				}, function() {
+					expect($('img')).to.not.be.visible;
+				}
+			]);
+		});
+
 		it ('does not move content that was already placed in the featherlight by content-filters', function() {
 			$.featherlight.contentFilters.advancedExample = {
 				process: function() {
@@ -267,6 +282,18 @@ var stubAjaxLoad = function(content) {
 				});
 			});
 
+			it('can recover from an ajax load error, like a 404', function(done) {
+				var modal = new $.featherlight({ajax: 'bad-url-not-found.html'});
+				var p = modal.open();
+				var callbackCalled = false;
+				p.fail(function() {
+					callbackCalled = true;
+				})
+				patiently(done, function() {
+					expect(callbackCalled).to.be.true;
+				});
+			});
+
 			it('ajax content can be text only', function(done) {
 				stubAjaxLoad('Hello <b>world</b>');
 				$.featherlight({ajax: 'stubbed'});
@@ -452,6 +479,28 @@ var stubAjaxLoad = function(content) {
 				expect($(document.activeElement)).to.have.class('ok');
 				$.featherlight.close();
 			});
+
+			it('sets the "with-featherlight" class correctly on html', function() {
+				expect($('html')).not.to.have.class('with-featherlight');
+				$.featherlight({html: 'hello'});
+				expect($('html')).to.have.class('with-featherlight');
+				$.featherlight({html: 'hello'});
+				$.featherlight.close();
+				$.featherlight.close();
+				expect($('html')).not.to.have.class('with-featherlight');
+			});
+
+			it('works correctly with filters [#235]', function() {
+				var ok = false;
+				var fn = function(evt) {
+					ok = !evt.isDefaultPrevented();
+				};
+				$(document).on('click', fn);
+				$('#bug-235 .unrelated').click();
+				$(document).off('click', fn);
+				expect(ok).to.eql(true);
+			});
+
 		});
 	});
 }(jQuery));
